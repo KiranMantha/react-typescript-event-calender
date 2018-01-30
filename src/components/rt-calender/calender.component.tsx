@@ -52,11 +52,8 @@ class Calender extends React.Component<CalenderProps, CalenderState> {
         this.calc = this._calculate.bind(this);
         this.onSelectDate = this._onSelectDate.bind(this);
         this.events = [];
-    }
-
-    componentWillMount(){
-        this.setState(this.getInitialState());        
-    }
+        this.state = this.getInitialState();
+    }    
 
     private _calculate = (year: number, month: number) => {
         return {

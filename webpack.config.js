@@ -35,7 +35,7 @@ const config = {
      * in your code.
      */
     resolve: {
-        extensions: [".ts", ".tsx", ".jsx", ".js", ".less"]
+        extensions: [".ts", ".tsx", ".js", ".scss"]
     },
 
     module: {
@@ -63,24 +63,32 @@ const config = {
                 test: /\.(css|html)$/
             },
             {
-                test: /\.less$/,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader"
-                    }, {
-                        loader: "less-loader"
-                    }],
-                    // use style-loader in development
-                    fallback: "style-loader"
-                })
+                test: /\.(scss)$/,
+                use: [{
+                  loader: 'style-loader', // inject CSS to page
+                }, {
+                  loader: 'css-loader', // translates CSS into CommonJS modules
+                }, {
+                  loader: 'postcss-loader', // Run post css actions
+                  options: {
+                    plugins: function () { // post css plugins, can be exported to postcss.config.js
+                      return [
+                        require('precss'),
+                        require('autoprefixer')
+                      ];
+                    }
+                  }
+                }, {
+                  loader: 'sass-loader' // compiles Sass to CSS
+                }]
             },
             // the url-loader uses DataUrls. 
             // the file-loader emits files. 
-            { test: /\.png$/, loader: "url-loader?limit=10000&mimetype=image/png" },
-            { test: /\.(woff|woff2)$/, loader: "url-loader?limit=10000&minetype=application/font-woff" }, 
-            { test: /\.ttf$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream" },
-            { test: /\.eot$/, loader: "file-loader" },
-            { test: /\.svg$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml" },
+            { test: /\.png$/, loader: "url-loader?limit=10000&mimetype=image/png&name=fonts/[name].png" },
+            { test: /\.(woff|woff2)$/, loader: "url-loader?limit=10000&minetype=application/font-woff&name=fonts/[name]" }, 
+            { test: /\.ttf$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream&name=fonts/[name].ttf" },
+            { test: /\.eot$/, loader: "file-loader?name=fonts/[name].eot" },
+            { test: /\.svg$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml&name=fonts/[name].svg" },
         ]
     },
     plugins: [
@@ -99,8 +107,8 @@ const config = {
         }),
         new ExtractTextPlugin({
             filename: "css/[name].css"
-        }),
-        new webpack.NoEmitOnErrorsPlugin()
+        })
+        //new webpack.NoEmitOnErrorsPlugin()
     ]
 };
 
