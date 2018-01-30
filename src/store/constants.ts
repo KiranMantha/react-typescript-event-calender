@@ -2,14 +2,7 @@ const STORE_CONSTANTS = {
     ACTIONS: {
         GET_EVENTS: 'GET_EVENTS',
         ADD_EVENT: 'ADD_EVENT',
-        DELETE_EVENT: 'DELETE_EVENT',
-        SET_VISIBILITY_FILTER: 'SET_VISIBILITY_FILTER'
-    },
-
-    VisibilityFilters: {
-        SHOW_ALL: 'SHOW_ALL',
-        SHOW_COMPLETED: 'SHOW_COMPLETED',
-        SHOW_ACTIVE: 'SHOW_ACTIVE'
+        DELETE_EVENT: 'DELETE_EVENT'
     },
 
     initialState: {
